@@ -2,32 +2,47 @@
 
 
 angular.module('app', [
-  'ng-gandalf'
+  'ng-gandalf',
+  'ui.router',
+  'ngStorage',
+  'ui.bootstrap'
 ]);
 
-angular.module('app').controller('MainController', function ($scope, $gandlaf, Condition, Rule) {
 
-  $scope.conditions = [];
-  $scope.rules = [];
+angular.module('app').controller('MainController', function ($scope, $uibModal, DecisionTable, DecisionField, DecisionRule) {
 
-  $gandlaf.get().then(function (resp) {
-    $scope.conditions = resp.fields;
-    $scope.rules = resp.rules;
+  var table = null;
+  DecisionTable.current().then(function (resp) {
+    table = resp;
+    table.rules[0].edit();
+
+    $scope.table = resp;
   });
 
-  $scope.addNewCondition = function () {
-    var newCondition = new Condition({
-      title: 'new name'
+  $scope.addNewField = function () {
+
+    var modalInstance = $uibModal.open({
+      templateUrl: 'templates/modal/add-field.html',
+      controller: 'AddFieldController'
     });
-    $scope.conditions.push(newCondition);
-    $scope.rules.forEach(function (item) {
-      item.addCondition(newCondition);
+    modalInstance.result.then(function (newField) {
+      table.addField(newField);
     });
+
   };
   $scope.addNewRule = function () {
-    $scope.rules.push(Rule.fromConditions($scope.conditions, {
-      priority: $scope.rules.length
-    }));
+
+    var rule = DecisionRule.fromFields(table.fields, {
+      priority: table.rules.length
+    }); // can be different
+
+    table.addRule(rule);
+  };
+
+  $scope.save = function () {
+    table.save().then(function () {
+
+    })
   }
 
 });

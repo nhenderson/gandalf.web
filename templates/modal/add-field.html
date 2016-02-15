@@ -1,0 +1,45 @@
+
+<form ng-submit="save(form)" name="form">
+  <div class="modal-header">
+    <h3 class="modal-title">Create new column</h3>
+  </div>
+  <div class="modal-body">
+    <div class="form-horizontal">
+      <div class="form-group">
+        <label class="col-sm-2 control-label">Title</label>
+        <div class="col-sm-10">
+          <input type="text" ng-model="field.title" required="required" placeholder="eg. Person age..." class="form-control"/>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-sm-2 control-label">Alias</label>
+        <div class="col-sm-10">
+          <input type="text" ng-model="field.alias" required="required" pattern="[a-zA-Z\_\-]*" placeholder="person-age" class="form-control"/><span class="help-block">Latin alias (for API). Use only alphabet characters, dash and underscore. <code>a-z,A-Z,_,-</code></span>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-sm-2 control-label">Type</label>
+        <div class="col-sm-10">
+          <select type="text" ng-model="field.type" required="required" class="form-control">
+            <option value="number">Number</option>
+            <option value="string">String</option>
+            <option value="bool">Boolean</option>
+          </select>
+        </div>
+      </div>
+      <!-- .form-group
+      label.col-sm-2.control-label Default Value
+      .col-sm-10
+        input.form-control(
+          type="text",
+          ng-model="field.defaultValue",
+        )
+      
+      -->
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="submit" class="btn btn-primary">Save</button>
+    <button type="button" ng-click="cancel()" class="btn btn-warning">Cancel</button>
+  </div>
+</form>
