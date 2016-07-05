@@ -21,6 +21,9 @@ angular.module('app').service('UserService', function ($cacheFactory, $rootScope
   };
 
   this.verifyEmail = function (token) {
-    return $gandalf.admin.verifyUserEmail(token);
-  }
+    return $gandalf.admin.verifyUserEmail(token).then(function (response) {
+      cache.removeAll();
+      return response;
+    });
+  };
 });
